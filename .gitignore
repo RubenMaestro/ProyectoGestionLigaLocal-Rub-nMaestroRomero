@@ -1,0 +1,12 @@
+/target/
+*.iml
+.idea/
+*.class
+*.log
+*.jar
+*.war
+*.zip
+*.db
+bin/
+/.mvn/wrapper/maven-wrapper.jar
+HELP.md

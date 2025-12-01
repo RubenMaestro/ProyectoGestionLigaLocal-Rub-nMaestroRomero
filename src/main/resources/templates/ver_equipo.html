@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Ver Equipo</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+
+<body class="container mt-4">
+
+<h1 th:text="${equipo.nombre}">Equipo</h1>
+
+<p><strong>Entrenador:</strong> <span th:text="${equipo.entrenador}"></span></p>
+<p><strong>Victorias:</strong> <span th:text="${equipo.victorias}">0</span></p>
+<p><strong>Empates:</strong> <span th:text="${equipo.empates}">0</span></p>
+<p><strong>Derrotas:</strong> <span th:text="${equipo.derrotas}">0</span></p>
+
+<div class="mb-3">
+    <a th:href="@{/equipos}" class="btn btn-secondary">Volver a equipos</a>
+    <a th:href="@{/equipos/{nombre}/agregarJugador(nombre=${equipo.nombre})}" class="btn btn-primary">Añadir jugador</a>
+</div>
+
+<h3>Jugadores (<span th:text="${#lists.size(equipo.jugadores)}">0</span>/23)</h3>
+<div th:if="${#lists.isEmpty(equipo.jugadores)}">
+    <p>No hay jugadores registrados en este equipo.</p>
+</div>
+<table th:unless="${#lists.isEmpty(equipo.jugadores)}" class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>DNI</th>
+            <th>Posición</th>
+            <th>Goles Totales</th>
+            <th>Asistencias Totales</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="j : ${equipo.jugadores}">
+            <td th:text="${j.nombre}">Jugador Nombre</td>
+            <td th:text="${j.dni}">DNI</td>
+            <td th:text="${j.posicion}">Posicion</td>
+            <td th:text="${j.goles}">0</td>
+            <td th:text="${j.asistencias}">0</td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Jugar Partido</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+
+<body class="container mt-4">
+
+<h1>Introducir resultado del partido</h1>
+<h2 th:text="${partido.local.nombre + ' vs ' + partido.visitante.nombre}">Partido</h2>
+
+<form th:action="@{'/partidos/' + ${index} + '/procesar'}"
+      th:object="${partido}" method="post">         
+
+    <hr/>
+    <h3>Resultado Global</h3>
+    <div class="mb-3 row">
+        <label class="col-sm-6 col-form-label" th:text="${partido.local.nombre}"></label>
+        <div class="col-sm-6">
+            <input th:field="*{golesLocal}" type="number" min="0" class="form-control" required>
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label class="col-sm-6 col-form-label" th:text="${partido.visitante.nombre}"></label>
+        <div class="col-sm-6">
+            <input th:field="*{golesVisitante}" type="number" min="0" class="form-control" required>
+        </div>
+    </div>
+    
+    <hr/>
+    <h2>Estadísticas Individuales</h2>
+    <p class="text-muted">Introduce las estadísticas solo para los jugadores que participaron en el partido. Los campos vacíos se considerarán 0.</p>
+    
+    <div class="row mb-2 fw-bold">
+        <div class="col-4">Jugador</div>
+        <div class="col-2 text-center">Goles</div>
+        <div class="col-2 text-center">Asistencias</div>
+        <div class="col-2 text-center">Amarillas</div>
+        <div class="col-2 text-center">Rojas</div>
+    </div>
+
+    <h3 th:text="${partido.local.nombre}">Equipo Local</h3>
+    <div th:if="${#lists.isEmpty(partido.local.jugadores)}">
+        <p>No hay jugadores en el equipo local</p>
+    </div>
+    <div th:each="jug, iterStat : ${partido.local.jugadores}" class="row mb-2">
+        <div class="col-4">
+            <label th:text="${jug.nombre}">Nombre</label>
+        </div>
+        <div class="col-2">
+            <input th:name="${'jugadoresLocalPartido[' + iterStat.index + '].dni'}" type="hidden" th:value="${jug.dni}" />
+            <input th:name="${'jugadoresLocalPartido[' + iterStat.index + '].nombre'}" type="hidden" th:value="${jug.nombre}" />
+            
+            <input th:name="${'jugadoresLocalPartido[' + iterStat.index + '].goles'}" type="number" min="0" class="form-control" value="0"/>
+        </div>
+        <div class="col-2">
+            <input th:name="${'jugadoresLocalPartido[' + iterStat.index + '].asistencias'}" type="number" min="0" class="form-control" value="0"/>
+        </div>
+        <div class="col-2">
+            <input th:name="${'jugadoresLocalPartido[' + iterStat.index + '].amarillas'}" type="number" min="0" class="form-control" value="0"/>
+        </div>
+        <div class="col-2">
+            <input th:name="${'jugadoresLocalPartido[' + iterStat.index + '].rojas'}" type="number" min="0" class="form-control" value="0"/>
+        </div>
+    </div>
+
+    <hr/>
+
+    <h3 th:text="${partido.visitante.nombre}">Equipo Visitante</h3>
+    <div th:if="${#lists.isEmpty(partido.visitante.jugadores)}">
+        <p>No hay jugadores en el equipo visitante</p>
+    </div>
+    <div th:each="jug, iterStat : ${partido.visitante.jugadores}" class="row mb-2">
+        <div class="col-4">
+            <label th:text="${jug.nombre}">Nombre</label>
+        </div>
+        <div class="col-2">
+            <input th:name="${'jugadoresVisitantePartido[' + iterStat.index + '].dni'}" type="hidden" th:value="${jug.dni}" />
+            <input th:name="${'jugadoresVisitantePartido[' + iterStat.index + '].nombre'}" type="hidden" th:value="${jug.nombre}" />
+
+            <input th:name="${'jugadoresVisitantePartido[' + iterStat.index + '].goles'}" type="number" min="0" class="form-control" value="0"/>
+        </div>
+        <div class="col-2">
+            <input th:name="${'jugadoresVisitantePartido[' + iterStat.index + '].asistencias'}" type="number" min="0" class="form-control" value="0"/>
+        </div>
+        <div class="col-2">
+            <input th:name="${'jugadoresVisitantePartido[' + iterStat.index + '].amarillas'}" type="number" min="0" class="form-control" value="0"/>
+        </div>
+        <div class="col-2">
+            <input th:name="${'jugadoresVisitantePartido[' + iterStat.index + '].rojas'}" type="number" min="0" class="form-control" value="0"/>
+        </div>
+    </div>
+    <hr/>
+
+    <button class="btn btn-success">Enviar resultado</button>
+    <a href="/partidos" class="btn btn-secondary">Volver</a>
+
+</form>
+
+</body>
+</html>
