@@ -1,11 +1,9 @@
 package com.example.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.*;
 import com.example.demo.model.JugadorDTO;
 import com.example.demo.services.JugadorService;
 
@@ -13,33 +11,36 @@ import com.example.demo.services.JugadorService;
 @RequestMapping("/jugadores")
 public class JugadorController {
 
-    private final JugadorService jugadorService;
-
-    public JugadorController(JugadorService jugadorService) {
-        this.jugadorService = jugadorService;
-    }
+    @Autowired
+    private JugadorService jugadorService;
 
     @GetMapping
-    public String lista(Model model) {
+    public String listar(Model model) {
         model.addAttribute("jugadores", jugadorService.getJugadores());
         return "lista_jugadores";
     }
 
     @GetMapping("/nuevo")
-    public String nuevoJugador(Model model) {
+    public String nuevoForm(Model model) {
         model.addAttribute("jugador", new JugadorDTO());
         return "formulario_jugadores";
     }
-    
-    
-    @PostMapping("/guardar")
-    public String guardar(JugadorDTO jugador) {
+
+    @PostMapping("/crear")
+    public String crear(@ModelAttribute JugadorDTO jugador, Model model) {
         try {
             jugadorService.crearJugador(jugador);
-        } catch (IllegalArgumentException e) {
-            // Manejo de la excepción de edad
-            System.err.println(e.getMessage());
+            return "redirect:/jugadores";
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("jugador", jugador);
+            return "formulario_jugadores";
         }
+    }
+
+    @GetMapping("/{dni}/eliminar")
+    public String eliminar(@PathVariable String dni) {
+        jugadorService.eliminarJugador(dni);
         return "redirect:/jugadores";
     }
 }

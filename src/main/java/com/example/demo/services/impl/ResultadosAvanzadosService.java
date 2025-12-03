@@ -1,75 +1,112 @@
 package com.example.demo.services.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.PartidoDTO;
 import com.example.demo.model.EquipoDTO;
 import com.example.demo.model.JugadorDTO;
-import com.example.demo.model.PartidoDTO;
 import com.example.demo.services.ResultadosService;
 
+import java.util.HashMap;
+import java.util.Map;
+
+// Modo avanzado: actualiza equipos + estadísticas de jugadores (deltas).
 @Service("resultadosAvanzadosService")
 public class ResultadosAvanzadosService implements ResultadosService {
 
-    // Inyectamos el servicio normal para que Spring lo gestione y procese lo básico
-    @Autowired
-    private ResultadosNormalesService normales;
-
     @Override
     public void procesarResultados(PartidoDTO partido) {
+        if (partido == null) return;
 
-        // 1. Procesar lo básico (victorias, empates, puntos, goles de equipo)
-        normales.procesarResultados(partido);
+        EquipoDTO local = partido.getLocal();
+        EquipoDTO visitante = partido.getVisitante();
+        if (local == null || visitante == null) return;
 
-        // 2. Estadísticas avanzadas por jugador
-        // Se espera que partido contenga listas con las contribuciones de jugadores en ese partido,
-        // recogidas desde el formulario partidos_jugar.html
-        
-        if (partido.getLocal() != null && partido.getJugadoresLocalPartido() != null && !partido.getJugadoresLocalPartido().isEmpty()) {
-            actualizarEstadisticasJugadores(partido.getLocal(), partido.getJugadoresLocalPartido());
+        int gl = partido.getGolesLocal();
+        int gv = partido.getGolesVisitante();
+
+        // Actualizar goles y puntos (igual que modo normal)
+        local.setGolesFavor(local.getGolesFavor() + gl);
+        local.setGolesContra(local.getGolesContra() + gv);
+        visitante.setGolesFavor(visitante.getGolesFavor() + gv);
+        visitante.setGolesContra(visitante.getGolesContra() + gl);
+
+        if (gl > gv) {
+            local.setVictorias(local.getVictorias() + 1);
+            local.setPuntos(local.getPuntos() + 3);
+            visitante.setDerrotas(visitante.getDerrotas() + 1);
+        } else if (gl < gv) {
+            visitante.setVictorias(visitante.getVictorias() + 1);
+            visitante.setPuntos(visitante.getPuntos() + 3);
+            local.setDerrotas(local.getDerrotas() + 1);
+        } else {
+            local.setEmpates(local.getEmpates() + 1);
+            visitante.setEmpates(visitante.getEmpates() + 1);
+            local.setPuntos(local.getPuntos() + 1);
+            visitante.setPuntos(visitante.getPuntos() + 1);
         }
-        if (partido.getVisitante() != null && partido.getJugadoresVisitantePartido() != null && !partido.getJugadoresVisitantePartido().isEmpty()) {
-            actualizarEstadisticasJugadores(partido.getVisitante(), partido.getJugadoresVisitantePartido());
+
+        partido.setJugado(true);
+
+        // Construir mapa de deltas por DNI (merge deltas si hay duplicados)
+        Map<String, JugadorDTO> deltaMap = new HashMap<>();
+
+        if (partido.getJugadoresLocalPartido() != null) {
+            for (JugadorDTO d : partido.getJugadoresLocalPartido()) {
+                if (d == null || d.getDni() == null) continue;
+                JugadorDTO ex = deltaMap.get(d.getDni());
+                if (ex == null) deltaMap.put(d.getDni(), d);
+                else {
+                    ex.setGoles(ex.getGoles() + d.getGoles());
+                    ex.setAsistencias(ex.getAsistencias() + d.getAsistencias());
+                    ex.setAmarillas(ex.getAmarillas() + d.getAmarillas());
+                    ex.setRojas(ex.getRojas() + d.getRojas());
+                }
+            }
         }
-    }
 
-    private void actualizarEstadisticasJugadores(EquipoDTO equipo, List<JugadorDTO> jugadoresPartido) {
-        if (equipo == null || jugadoresPartido == null || jugadoresPartido.isEmpty())
-            return;
+        if (partido.getJugadoresVisitantePartido() != null) {
+            for (JugadorDTO d : partido.getJugadoresVisitantePartido()) {
+                if (d == null || d.getDni() == null) continue;
+                JugadorDTO ex = deltaMap.get(d.getDni());
+                if (ex == null) deltaMap.put(d.getDni(), d);
+                else {
+                    ex.setGoles(ex.getGoles() + d.getGoles());
+                    ex.setAsistencias(ex.getAsistencias() + d.getAsistencias());
+                    ex.setAmarillas(ex.getAmarillas() + d.getAmarillas());
+                    ex.setRojas(ex.getRojas() + d.getRojas());
+                }
+            }
+        }
 
-        // Buscar cada jugador por algún identificador (DNI o nombre) y sumar sus estadísticas
-        for (JugadorDTO jugadorPartido : jugadoresPartido) {
-            
-            // Buscar el jugador en el equipo por DNI o Nombre
-            JugadorDTO jugadorEquipo = equipo.getJugadores().stream()
-                .filter(j -> {
-                    // Usar DNI si está disponible
-                    if (jugadorPartido.getDni() != null && !jugadorPartido.getDni().isEmpty() && j.getDni() != null) {
-                        return jugadorPartido.getDni().equalsIgnoreCase(j.getDni());
-                    }
-                    // Si no, usar nombre (menos seguro pero necesario si DNI no se usa)
-                    if (jugadorPartido.getNombre() != null && j.getNombre() != null) {
-                        return jugadorPartido.getNombre().equalsIgnoreCase(j.getNombre());
-                    }
-                    return false;
-                })
-                .findFirst()
-                .orElse(null);
-
-            if (jugadorEquipo != null) {
-                sumarEstadisticasJugador(jugadorEquipo, jugadorPartido);
+        // Aplicar deltas a jugadores reales de ambos equipos
+        if (!deltaMap.isEmpty()) {
+            for (JugadorDTO real : local.getJugadores()) {
+                JugadorDTO delta = deltaMap.get(real.getDni());
+                if (delta != null) applyDelta(real, delta);
+            }
+            for (JugadorDTO real : visitante.getJugadores()) {
+                JugadorDTO delta = deltaMap.get(real.getDni());
+                if (delta != null) applyDelta(real, delta);
             }
         }
     }
 
-    private void sumarEstadisticasJugador(JugadorDTO destino, JugadorDTO añadido) {
-        // La información del DNI y Nombre del jugador "añadido" viene del formulario y se usa para la búsqueda.
-        // Solo debemos sumar los contadores.
-        destino.setGoles(destino.getGoles() + añadido.getGoles());
-        destino.setAsistencias(destino.getAsistencias() + añadido.getAsistencias());
-        destino.setAmarillas(destino.getAmarillas() + añadido.getAmarillas());
-        destino.setRojas(destino.getRojas() + añadido.getRojas());
+    private void applyDelta(JugadorDTO real, JugadorDTO delta) {
+        if (real == null || delta == null) return;
+        real.setGoles(real.getGoles() + safe(delta.getGoles()));
+        real.setAsistencias(real.getAsistencias() + safe(delta.getAsistencias()));
+        real.setAmarillas(real.getAmarillas() + safe(delta.getAmarillas()));
+        real.setRojas(real.getRojas() + safe(delta.getRojas()));
+
+        // Ajuste simple del valor de mercado
+        double v = real.getValorMercado();
+        v += safe(delta.getGoles()) * 5000.0;
+        v += safe(delta.getAsistencias()) * 2000.0;
+        v -= safe(delta.getAmarillas()) * 2000.0;
+        v -= safe(delta.getRojas()) * 5000.0;
+        real.setValorMercado(v);
     }
+
+    private int safe(Integer x) { return x == null ? 0 : x; }
 }

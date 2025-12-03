@@ -1,105 +1,102 @@
 package com.example.demo.model;
 
 public class JugadorDTO {
-	private String nombre;
-	private String dni;
-	private int edad;
-	private String posicion;
-	
-	private int goles;
-	private int asistencias;
-	private int amarillas;
-	private int rojas;
-	
-	private double valorMercado;
 
-	public JugadorDTO() {
-		super();
-	}
+    private String nombre;
+    private String dni;
+    private int edad;
+    private String posicion;
 
-	public JugadorDTO(String nombre, String dni, int edad, String posicion, int goles, int asistencias, int amarillas,
-			int rojas, double valorMercado) {
-		super();
-		this.nombre = nombre;
-		this.dni = dni;
-		this.edad = edad;
-		this.posicion = posicion;
-		this.goles = goles;
-		this.asistencias = asistencias;
-		this.amarillas = amarillas;
-		this.rojas = rojas;
-		this.valorMercado = valorMercado;
-	}
+    private int goles;
+    private int asistencias;
+    private int amarillas;
+    private int rojas;
 
-	public String getNombre() {
-		return nombre;
-	}
+    private double valorMercado;
+    private String equipo;
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public JugadorDTO() {}
 
-	public String getDni() {
-		return dni;
-	}
+    public JugadorDTO(String nombre, String dni, int edad, String posicion) {
+        this.nombre = nombre;
+        this.dni = dni;
+        this.edad = edad;
+        this.posicion = posicion;
 
-	public void setDni(String dni) {
-		this.dni = dni;
-	}
+        this.goles = 0;
+        this.asistencias = 0;
+        this.amarillas = 0;
+        this.rojas = 0;
+        this.valorMercado = 0.0;
+    }
 
-	public int getEdad() {
-		return edad;
-	}
+    public String getNombre() {
+        return nombre;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public void setEdad(int edad) {
-		this.edad = edad;
-	}
+    public String getDni() {
+        return dni;
+    }
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
 
-	public String getPosicion() {
-		return posicion;
-	}
+    public int getEdad() {
+        return edad;
+    }
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
 
-	public void setPosicion(String posicion) {
-		this.posicion = posicion;
-	}
+    public String getPosicion() {
+        return posicion;
+    }
+    public void setPosicion(String posicion) {
+        this.posicion = posicion;
+    }
 
-	public int getGoles() {
-		return goles;
-	}
+    public int getGoles() {
+        return goles;
+    }
+    public void setGoles(int goles) {
+        this.goles = goles;
+    }
 
-	public void setGoles(int goles) {
-		this.goles = goles;
-	}
+    public int getAsistencias() {
+        return asistencias;
+    }
+    public void setAsistencias(int asistencias) {
+        this.asistencias = asistencias;
+    }
 
-	public int getAsistencias() {
-		return asistencias;
-	}
+    public int getAmarillas() {
+        return amarillas;
+    }
+    public void setAmarillas(int amarillas) {
+        this.amarillas = amarillas;
+    }
 
-	public void setAsistencias(int asistencias) {
-		this.asistencias = asistencias;
-	}
+    public int getRojas() {
+        return rojas;
+    }
+    public void setRojas(int rojas) {
+        this.rojas = rojas;
+    }
 
-	public int getAmarillas() {
-		return amarillas;
-	}
+    public double getValorMercado() {
+        return valorMercado;
+    }
+    public void setValorMercado(double valorMercado) {
+        this.valorMercado = valorMercado;
+    }
 
-	public void setAmarillas(int amarillas) {
-		this.amarillas = amarillas;
-	}
-
-	public int getRojas() {
-		return rojas;
-	}
-
-	public void setRojas(int rojas) {
-		this.rojas = rojas;
-	}
-
-	public double getValorMercado() {
-		return valorMercado;
-	}
-
-	public void setValorMercado(double valorMercado) {
-		this.valorMercado = valorMercado;
-	}
+    public String getEquipo() {
+        return equipo;
+    }
+    public void setEquipo(String equipo) {
+        this.equipo = equipo;
+    }
 }

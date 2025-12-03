@@ -7,7 +7,7 @@ import com.example.demo.model.JugadorDTO;
 
 public interface EquipoService {
     List<EquipoDTO> getEquipos();
-    void CrearEquipo(EquipoDTO equipo);
+    void crearEquipo(EquipoDTO equipo);
     EquipoDTO getEquipo(String nombre);
     void añadirJugador(String nombreEquipo, JugadorDTO jugador) throws Exception;
     void eliminarEquipo(String nombre);

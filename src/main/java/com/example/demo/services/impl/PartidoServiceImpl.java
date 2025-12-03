@@ -10,22 +10,27 @@ import com.example.demo.services.PartidoService;
 
 @Service
 public class PartidoServiceImpl implements PartidoService {
-	
-	private final List<PartidoDTO> partidos = new ArrayList<>();
-	
-	// Programar un partido
-	@Override
-	public void programarPartido(PartidoDTO partido) {
-		// Asegura que el partido se crea como "pendiente de jugarse"
-		partido.setJugado(false); 
-		partidos.add(partido);
-	}
-	
-	// Devuelve la lista de partidos
-	@Override
-	public List<PartidoDTO> getPartidos() {
-		return partidos;
-	}
-	
 
+    private final List<PartidoDTO> partidos = new ArrayList<>();
+
+    @Override
+    public List<PartidoDTO> getPartidos() {
+        return partidos;
+    }
+
+    @Override
+    public void programarPartido(PartidoDTO partido) {
+        if (partido == null) return;
+        partido.setJugado(false);
+        partidos.add(partido);
+    }
+
+    @Override
+    public void borrarPartido(PartidoDTO partido) {
+        partidasRemove(partido);
+    }
+
+    private void partidasRemove(PartidoDTO partido) {
+        partidos.removeIf(p -> p == partido || (p.getFecha() != null && partido.getFecha() != null && p.getFecha().equals(partido.getFecha()) && p.getLocal() == partido.getLocal() && p.getVisitante() == partido.getVisitante()));
+    }
 }

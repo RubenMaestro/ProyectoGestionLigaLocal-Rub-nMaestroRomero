@@ -1,48 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
+    <meta charset="UTF-8">
     <title>Jugadores</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
+<body>
 
-<body class="container mt-4">
+<h1>Jugadores</h1>
 
-    <h1>Jugadores (Disponibles para asignar)</h1>
+<a th:href="@{/jugadores/nuevo}">Crear Jugador</a>
+<br><br>
 
-    <a href="/jugadores/nuevo" class="btn btn-primary mb-3">Nuevo jugador (No asignado a equipo)</a>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>DNI</th>
+        <th>Edad</th>
+        <th>Posición</th>
+        <th>Goles</th>
+        <th>Asistencias</th>
+        <th>Amarillas</th>
+        <th>Rojas</th>
+        <th>Valor (€)</th>
+        <th>Equipo</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="j : ${jugadores}">
+        <td th:text="${j.nombre}"></td>
+        <td th:text="${j.dni}"></td>
+        <td th:text="${j.edad}"></td>
+        <td th:text="${j.posicion}"></td>
+        <td th:text="${j.goles}"></td>
+        <td th:text="${j.asistencias}"></td>
+        <td th:text="${j.amarillas}"></td>
+        <td th:text="${j.rojas}"></td>
+        <td th:text="${j.valorMercado}"></td>
+        <td th:text="${j.equipo}"></td>
+    </tr>
+    </tbody>
+</table>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>DNI</th>
-                <th>Posición</th>
-                <th>Edad</th>
-                <th>Goles</th>
-                <th>Asistencias</th>
-                <th>Amarillas</th>
-                <th>Rojas</th>
-                <th>Valor Mercado</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="j : ${jugadores}">
-                <td th:text="${j.nombre}"></td>
-                <td th:text="${j.dni}"></td>
-                <td th:text="${j.posicion}"></td>
-                <td th:text="${j.edad}"></td>
-                <td th:text="${j.goles}"></td>
-                <td th:text="${j.asistencias}"></td>
-                <td th:text="${j.amarillas}"></td>
-                <td th:text="${j.rojas}"></td>
-                <td th:text="${j.valorMercado}"></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="/" class="btn btn-secondary">Volver</a>
+<br>
+<a href="/">Volver</a>
 
 </body>
 </html>

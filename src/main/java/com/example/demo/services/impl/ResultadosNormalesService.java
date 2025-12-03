@@ -1,54 +1,47 @@
 package com.example.demo.services.impl;
 
 import org.springframework.stereotype.Service;
-
 import com.example.demo.model.PartidoDTO;
+import com.example.demo.model.EquipoDTO;
 import com.example.demo.services.ResultadosService;
 
+// Modo normal: actualiza solo estadísticas de equipo y puntos.
 @Service("resultadosNormalesService")
 public class ResultadosNormalesService implements ResultadosService {
 
     @Override
     public void procesarResultados(PartidoDTO partido) {
+        if (partido == null) return;
+
+        EquipoDTO local = partido.getLocal();
+        EquipoDTO visitante = partido.getVisitante();
+        if (local == null || visitante == null) return;
 
         int gl = partido.getGolesLocal();
         int gv = partido.getGolesVisitante();
 
-        // actualizar goles a favor / en contra del equipo
-        if (partido.getLocal() != null) {
-            partido.getLocal().setGolesFavor(partido.getLocal().getGolesFavor() + gl);
-            partido.getLocal().setGolesContra(partido.getLocal().getGolesContra() + gv);
-        }
-        if (partido.getVisitante() != null) {
-            partido.getVisitante().setGolesFavor(partido.getVisitante().getGolesFavor() + gv);
-            partido.getVisitante().setGolesContra(partido.getVisitante().getGolesContra() + gl);
+        // Goles
+        local.setGolesFavor(local.getGolesFavor() + gl);
+        local.setGolesContra(local.getGolesContra() + gv);
+        visitante.setGolesFavor(visitante.getGolesFavor() + gv);
+        visitante.setGolesContra(visitante.getGolesContra() + gl);
+
+        // Resultado y puntos
+        if (gl > gv) {
+            local.setVictorias(local.getVictorias() + 1);
+            local.setPuntos(local.getPuntos() + 3);
+            visitante.setDerrotas(visitante.getDerrotas() + 1);
+        } else if (gl < gv) {
+            visitante.setVictorias(visitante.getVictorias() + 1);
+            visitante.setPuntos(visitante.getPuntos() + 3);
+            local.setDerrotas(local.getDerrotas() + 1);
+        } else {
+            local.setEmpates(local.getEmpates() + 1);
+            visitante.setEmpates(visitante.getEmpates() + 1);
+            local.setPuntos(local.getPuntos() + 1);
+            visitante.setPuntos(visitante.getPuntos() + 1);
         }
 
-        if (gl > gv) {
-            // Gana el equipo local
-            partido.getLocal().setPuntos(partido.getLocal().getPuntos() + 3);
-            partido.getLocal().setVictorias(partido.getLocal().getVictorias() + 1);
-            
-            if (partido.getVisitante() != null) {
-                 partido.getVisitante().setDerrotas(partido.getVisitante().getDerrotas() + 1);
-            }
-        } else if (gl < gv) {
-            // Gana el equipo visitante
-            partido.getVisitante().setPuntos(partido.getVisitante().getPuntos() + 3);
-            partido.getVisitante().setVictorias(partido.getVisitante().getVictorias() + 1);
-            
-            if (partido.getLocal() != null) {
-                partido.getLocal().setDerrotas(partido.getLocal().getDerrotas() + 1);
-            }
-        } else {
-            // Empate
-            partido.getLocal().setPuntos(partido.getLocal().getPuntos() + 1);
-            partido.getLocal().setEmpates(partido.getLocal().getEmpates() + 1);
-            
-            if (partido.getVisitante() != null) {
-                partido.getVisitante().setPuntos(partido.getVisitante().getPuntos() + 1);
-                partido.getVisitante().setEmpates(partido.getVisitante().getEmpates() + 1);
-            }
-        }
+        partido.setJugado(true);
     }
 }

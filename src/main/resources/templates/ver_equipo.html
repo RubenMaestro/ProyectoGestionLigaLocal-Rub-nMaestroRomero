@@ -1,51 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <meta charset="UTF-8" />
-    <title>Ver Equipo</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Equipo</title>
 </head>
+<body>
 
-<body class="container mt-4">
+<h1 th:text="'Equipo: ' + ${equipo.nombre}"></h1>
 
-<h1 th:text="${equipo.nombre}">Equipo</h1>
+<p>Entrenador: <span th:text="${equipo.entrenador}"></span></p>
 
-<p><strong>Entrenador:</strong> <span th:text="${equipo.entrenador}"></span></p>
-<p><strong>Victorias:</strong> <span th:text="${equipo.victorias}">0</span></p>
-<p><strong>Empates:</strong> <span th:text="${equipo.empates}">0</span></p>
-<p><strong>Derrotas:</strong> <span th:text="${equipo.derrotas}">0</span></p>
+<h2>Jugadores:</h2>
 
-<div class="mb-3">
-    <a th:href="@{/equipos}" class="btn btn-secondary">Volver a equipos</a>
-    <a th:href="@{/equipos/{nombre}/agregarJugador(nombre=${equipo.nombre})}" class="btn btn-primary">Añadir jugador</a>
-</div>
-
-<h3>Jugadores (<span th:text="${#lists.size(equipo.jugadores)}">0</span>/23)</h3>
-<div th:if="${#lists.isEmpty(equipo.jugadores)}">
-    <p>No hay jugadores registrados en este equipo.</p>
-</div>
-<table th:unless="${#lists.isEmpty(equipo.jugadores)}" class="table table-striped">
+<table border="1">
     <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>DNI</th>
-            <th>Posición</th>
-            <th>Goles Totales</th>
-            <th>Asistencias Totales</th>
-        </tr>
+    <tr>
+        <th>Nombre</th>
+        <th>DNI</th>
+        <th>Edad</th>
+        <th>Posición</th>
+        <th>Goles</th>
+        <th>Asistencias</th>
+        <th>Amarillas</th>
+        <th>Rojas</th>
+        <th>Valor (€)</th>
+    </tr>
     </thead>
     <tbody>
-        <tr th:each="j : ${equipo.jugadores}">
-            <td th:text="${j.nombre}">Jugador Nombre</td>
-            <td th:text="${j.dni}">DNI</td>
-            <td th:text="${j.posicion}">Posicion</td>
-            <td th:text="${j.goles}">0</td>
-            <td th:text="${j.asistencias}">0</td>
-        </tr>
+    <tr th:each="j : ${equipo.jugadores}">
+        <td th:text="${j.nombre}"></td>
+        <td th:text="${j.dni}"></td>
+        <td th:text="${j.edad}"></td>
+        <td th:text="${j.posicion}"></td>
+        <td th:text="${j.goles}"></td>
+        <td th:text="${j.asistencias}"></td>
+        <td th:text="${j.amarillas}"></td>
+        <td th:text="${j.rojas}"></td>
+        <td th:text="${j.valorMercado}"></td>
+    </tr>
     </tbody>
 </table>
+
+<br>
+<a th:href="@{'/equipos/' + ${equipo.nombre} + '/añadir'}">Añadir jugador</a>
+<br><br>
+<a th:href="@{/equipos}">Volver</a>
 
 </body>
 </html>

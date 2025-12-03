@@ -1,47 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <title>Nuevo Jugador</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Crear Jugador</title>
 </head>
+<body>
 
-<body class="container mt-4">
+<h1>Crear Jugador</h1>
 
-    <h1>Nuevo Jugador (Creación libre)</h1>
+<form th:action="@{/jugadores/crear}" method="post" th:object="${jugador}">
 
-    <form th:object="${jugador}" th:action="@{/jugadores/guardar}" method="post">
+    <label>Nombre:</label>
+    <input type="text" th:field="*{nombre}" required>
+    <br><br>
 
-        <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input th:field="*{nombre}" class="form-control" required>
-        </div>
+    <label>DNI:</label>
+    <input type="text" th:field="*{dni}" required>
+    <br><br>
 
-        <div class="mb-3">
-            <label class="form-label">DNI</label>
-            <input th:field="*{dni}" class="form-control" required>
-        </div>
+    <label>Edad:</label>
+    <input type="number" th:field="*{edad}" min="1" required>
+    <br><br>
 
-        <div class="mb-3">
-            <label class="form-label">Edad (Mínimo 17)</label>
-            <input th:field="*{edad}" type="number" class="form-control" min="17" required>
-        </div>
+    <label>Posición:</label>
+    <select th:field="*{posicion}" required>
+        <option value="">-- Selecciona posición --</option>
+        <option value="Delantero">Delantero</option>
+        <option value="Medio">Medio</option>
+        <option value="Defensa">Defensa</option>
+        <option value="Portero">Portero</option>
+    </select>
+    <br><br>
 
-        <div class="mb-3">
-            <label class="form-label">Posición</label>
-            <input th:field="*{posicion}" class="form-control" required>
-        </div>
-        
-        <div class="mb-3">
-            <label class="form-label">Valor de Mercado</label>
-            <input th:field="*{valorMercado}" type="number" class="form-control" min="0" step="0.01" required>
-        </div>
+    <button type="submit">Crear jugador</button>
+</form>
 
-        <button class="btn btn-primary">Guardar</button>
-        <a href="/jugadores" class="btn btn-secondary">Volver</a>
-
-    </form>
+<br>
+<a href="/jugadores">Volver</a>
 
 </body>
 </html>
