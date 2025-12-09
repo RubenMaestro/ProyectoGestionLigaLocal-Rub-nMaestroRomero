@@ -14,30 +14,32 @@
         <th>Pos</th>
         <th>Equipo</th>
         <th>Puntos</th>
-        <th>GF</th>
-        <th>GC</th>
-        <th>DG</th>
         <th>Victorias</th>
         <th>Empates</th>
         <th>Derrotas</th>
+        <th>GF</th>
+        <th>GC</th>
+        <th>DG</th>
     </tr>
     </thead>
+
     <tbody>
     <tr th:each="e, stat : ${equipos}">
         <td th:text="${stat.index + 1}"></td>
         <td th:text="${e.nombre}"></td>
         <td th:text="${e.puntos}"></td>
-        <td th:text="${e.golesFavor}"></td>
-        <td th:text="${e.golesContra}"></td>
-        <td th:text="${e.golesFavor - e.golesContra}"></td>
         <td th:text="${e.victorias}"></td>
         <td th:text="${e.empates}"></td>
         <td th:text="${e.derrotas}"></td>
+        <td th:text="${e.golesFavor}"></td>
+        <td th:text="${e.golesContra}"></td>
+        <td th:text="${e.golesFavor - e.golesContra}"></td>
     </tr>
     </tbody>
 </table>
 
-<br><a href="/">Volver</a>
+<br>
+<a th:href="@{/}">Volver</a>
 
 </body>
 </html>

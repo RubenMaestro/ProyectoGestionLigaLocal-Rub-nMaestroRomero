@@ -1,38 +1,46 @@
 package com.example.demo.model;
 
-import java.time.LocalDate;
-import java.util.List;
-
 public class PartidoDTO {
 
-    private LocalDate fecha;
+    private String fecha;
+    private String lugar;
+
+    // EquipoDTO no se define aquí, se asume que existe en tu paquete model.
     private EquipoDTO local;
     private EquipoDTO visitante;
 
-    private int golesLocal;
-    private int golesVisitante;
+    private Integer golesLocal;
+    private Integer golesVisitante;
 
     private boolean jugado;
 
-    private List<JugadorDTO> jugadoresLocalPartido;
-    private List<JugadorDTO> jugadoresVisitantePartido;
+    public PartidoDTO() {
+        this.golesLocal = 0;
+        this.golesVisitante = 0;
+        this.jugado = false;
+    }
 
-    public PartidoDTO() {}
-
-    public LocalDate getFecha() {
+    // Fecha / Lugar
+    public String getFecha() {
         return fecha;
     }
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
+    public String getLugar() {
+        return lugar;
+    }
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
+    }
 
+    // Equipos
     public EquipoDTO getLocal() {
         return local;
     }
     public void setLocal(EquipoDTO local) {
         this.local = local;
     }
-
     public EquipoDTO getVisitante() {
         return visitante;
     }
@@ -40,38 +48,25 @@ public class PartidoDTO {
         this.visitante = visitante;
     }
 
-    public int getGolesLocal() {
+    // Goles
+    public Integer getGolesLocal() {
         return golesLocal;
     }
-    public void setGolesLocal(int golesLocal) {
+    public void setGolesLocal(Integer golesLocal) {
         this.golesLocal = golesLocal;
     }
-
-    public int getGolesVisitante() {
+    public Integer getGolesVisitante() {
         return golesVisitante;
     }
-    public void setGolesVisitante(int golesVisitante) {
+    public void setGolesVisitante(Integer golesVisitante) {
         this.golesVisitante = golesVisitante;
     }
 
+    // Jugado
     public boolean isJugado() {
         return jugado;
     }
     public void setJugado(boolean jugado) {
         this.jugado = jugado;
-    }
-
-    public List<JugadorDTO> getJugadoresLocalPartido() {
-        return jugadoresLocalPartido;
-    }
-    public void setJugadoresLocalPartido(List<JugadorDTO> jugadoresLocalPartido) {
-        this.jugadoresLocalPartido = jugadoresLocalPartido;
-    }
-
-    public List<JugadorDTO> getJugadoresVisitantePartido() {
-        return jugadoresVisitantePartido;
-    }
-    public void setJugadoresVisitantePartido(List<JugadorDTO> jugadoresVisitantePartido) {
-        this.jugadoresVisitantePartido = jugadoresVisitantePartido;
     }
 }

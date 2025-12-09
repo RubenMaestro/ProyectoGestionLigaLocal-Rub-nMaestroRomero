@@ -1,11 +1,17 @@
 package com.example.demo.services;
 
+import com.example.demo.model.PartidoDTO;
 import java.util.List;
 
-import com.example.demo.model.PartidoDTO;
-
 public interface PartidoService {
+
     List<PartidoDTO> getPartidos();
-    void programarPartido(PartidoDTO partido);
-    void borrarPartido(PartidoDTO partido);
+
+    PartidoDTO obtenerPartido(int index);
+
+    void crearPartido(PartidoDTO partido, String localNombre, String visitanteNombre);
+
+    void registrarResultado(int index, int golesLocal, int golesVisitante);
+
+    void eliminarPartido(int index);
 }

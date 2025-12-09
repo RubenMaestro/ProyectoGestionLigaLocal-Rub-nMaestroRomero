@@ -8,25 +8,31 @@
 
 <h1>Programar Partido</h1>
 
-<form th:action="@{/partidos/programar}" th:object="${partido}" method="post">
+<form th:action="@{/partidos/crear}" method="post">
 
     <label>Fecha:</label>
-    <input type="date" th:field="*{fecha}">
+    <input type="date" name="fecha" required>
     <br><br>
 
     <label>Lugar:</label>
-    <input type="text" th:field="*{lugar}">
+    <input type="text" name="lugar" required>
     <br><br>
 
     <label>Equipo Local:</label>
-    <select name="nombreLocal">
-        <option th:each="e : ${equipos}" th:value="${e.nombre}" th:text="${e.nombre}"></option>
+    <select name="localNombre" required>
+        <option th:each="e : ${equipos}"
+                th:value="${e.nombre}"
+                th:text="${e.nombre}">
+        </option>
     </select>
     <br><br>
 
     <label>Equipo Visitante:</label>
-    <select name="nombreVisitante">
-        <option th:each="e : ${equipos}" th:value="${e.nombre}" th:text="${e.nombre}"></option>
+    <select name="visitanteNombre" required>
+        <option th:each="e : ${equipos}"
+                th:value="${e.nombre}"
+                th:text="${e.nombre}">
+        </option>
     </select>
     <br><br>
 

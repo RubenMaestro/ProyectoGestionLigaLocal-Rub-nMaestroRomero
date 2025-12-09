@@ -42,8 +42,11 @@
 </table>
 
 <br>
-<a th:href="@{'/equipos/' + ${equipo.nombre} + '/añadir'}">Añadir jugador</a>
+
+<a th:href="@{/equipos/__${equipo.nombre}__/anadir}">Añadir jugador</a>
+
 <br><br>
+
 <a th:href="@{/equipos}">Volver</a>
 
 </body>

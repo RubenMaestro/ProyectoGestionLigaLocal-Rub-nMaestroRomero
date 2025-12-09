@@ -2,21 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de equipos</title>
+    <title>Lista de Equipos</title>
 </head>
 <body>
 
-<h1>Equipos</h1>
+<h1>Lista de Equipos</h1>
 
-<a th:href="@{/equipos/nuevo}">Crear Equipo</a>
-<br><br>
+<a href="/equipos/nuevo">Crear Equipo</a>
 
 <table border="1">
     <thead>
     <tr>
         <th>Nombre</th>
         <th>Entrenador</th>
-        <th>Jugadores</th>
+        <th>Nº Jugadores</th>
         <th>Acciones</th>
     </tr>
     </thead>
@@ -24,18 +23,24 @@
     <tr th:each="e : ${equipos}">
         <td th:text="${e.nombre}"></td>
         <td th:text="${e.entrenador}"></td>
-        <td th:text="${e.jugadores.size()}"></td>
+        <td th:text="${#lists.size(e.jugadores)}"></td>
+
         <td>
-            <a th:href="@{'/equipos/' + ${e.nombre}}">Ver</a>
-            |
-            <a th:href="@{'/equipos/' + ${e.nombre} + '/eliminar'}">Eliminar</a>
+            <!-- ENLACE VER, AHORA FUNCIONA CON ESPACIOS -->
+            <a th:href="@{/equipos/__${e.nombre}__}">Ver</a>
+
+            &nbsp;|&nbsp;
+
+            <!-- ENLACE BORRAR -->
+            <a th:href="@{/equipos/__${e.nombre}__/borrar}">Eliminar</a>
         </td>
     </tr>
     </tbody>
 </table>
 
 <br>
-<a href="/" class="btn btn-secondary">Volver al inicio</a>
+
+<a href="/">Volver al inicio</a>
 
 </body>
 </html>

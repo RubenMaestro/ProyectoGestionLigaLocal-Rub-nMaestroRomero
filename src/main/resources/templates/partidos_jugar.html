@@ -2,86 +2,121 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Jugar Partido</title>
+    <title>Registrar Resultado</title>
+
+    <script>
+        function toggleAvanzadas() {
+            const avanzadas = document.getElementById("avanzadas");
+            const modo = document.querySelector('input[name="modo"]:checked').value;
+
+            avanzadas.style.display = (modo === "avanzadas") ? "block" : "none";
+        }
+    </script>
 </head>
 <body>
 
-<h1>Registrar Resultado</h1>
+<h1>Registrar resultado del partido</h1>
 
-<form th:action="@{'/partidos/' + ${index} + '/registrar'}" method="post">
+<p>
+    <b th:text="${partido.local.nombre}">Local</b>
+    vs
+    <b th:text="${partido.visitante.nombre}">Visitante</b>
+</p>
 
-    <h2>Resultado general</h2>
+<form th:action="@{/partidos/{idx}/registrar(idx=${index})}" method="post">
 
+    <!-- MODO DE REGISTRO -->
+    <h3>Tipo de estadística</h3>
+
+    <label>
+        <input type="radio" name="modo" value="normal" checked onclick="toggleAvanzadas()">
+        Normales
+    </label>
+
+    <label>
+        <input type="radio" name="modo" value="avanzadas" onclick="toggleAvanzadas()">
+        Avanzadas
+    </label>
+
+    <br><br>
+
+    <!-- GOLES GENERALES -->
     <label>Goles Local:</label>
-    <input type="number" name="golesLocal" min="0" required><br><br>
+    <input type="number" name="golesLocal" min="0" th:value="${partido.golesLocal}" required>
+
+    <br><br>
 
     <label>Goles Visitante:</label>
-    <input type="number" name="golesVisitante" min="0" required><br><br>
+    <input type="number" name="golesVisitante" min="0" th:value="${partido.golesVisitante}" required>
 
-    <label>Modo:</label>
-    <select name="modo">
-        <option value="normal">Normal</option>
-        <option value="avanzado">Avanzado</option>
-    </select>
+    <br><br>
 
-    <hr>
+    <!-- ======================== -->
+    <!--      ESTADISTICAS AVANZADAS -->
+    <!-- ======================== -->
 
-    <h2 th:text="'Estadísticas — ' + ${partido.local.nombre}"></h2>
+    <div id="avanzadas" style="display:none;">
 
-    <table border="1">
-        <thead>
-        <tr>
-            <th>Jugador</th>
-            <th>Goles</th>
-            <th>Asistencias</th>
-            <th>Amarillas</th>
-            <th>Rojas</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="j : ${jugadoresLocal}">
-            <td>
-                <span th:text="${j.nombre}"></span>
-                <input type="hidden" name="jugadorDni" th:value="${j.dni}">
-            </td>
-            <td><input type="number" name="goles" min="0" value="0"></td>
-            <td><input type="number" name="asistencias" min="0" value="0"></td>
-            <td><input type="number" name="amarillas" min="0" value="0"></td>
-            <td><input type="number" name="rojas" min="0" value="0"></td>
-        </tr>
-        </tbody>
-    </table>
+        <h2>Estadísticas avanzadas</h2>
 
-    <h2 th:text="'Estadísticas — ' + ${partido.visitante.nombre}"></h2>
+        <h3 th:text="${partido.local.nombre}">Local</h3>
 
-    <table border="1">
-        <thead>
-        <tr>
-            <th>Jugador</th>
-            <th>Goles</th>
-            <th>Asistencias</th>
-            <th>Amarillas</th>
-            <th>Rojas</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="j : ${jugadoresVisitante}">
-            <td>
-                <span th:text="${j.nombre}"></span>
-                <input type="hidden" name="jugadorDni" th:value="${j.dni}">
-            </td>
-            <td><input type="number" name="goles" min="0" value="0"></td>
-            <td><input type="number" name="asistencias" min="0" value="0"></td>
-            <td><input type="number" name="amarillas" min="0" value="0"></td>
-            <td><input type="number" name="rojas" min="0" value="0"></td>
-        </tr>
-        </tbody>
-    </table>
+        <table border="1">
+            <tr>
+                <th>Jugador</th>
+                <th>Goles</th>
+                <th>Asistencias</th>
+                <th>Amarillas</th>
+                <th>Rojas</th>
+            </tr>
 
-    <br><button type="submit">Guardar resultado</button>
+            <tr th:each="j, i : ${jugadoresLocal}">
+                <td th:text="${j.nombre}"></td>
+
+                <td><input type="number" name="golesLocalJugadores" min="0"></td>
+                <td><input type="number" name="asistenciasLocalJugadores" min="0"></td>
+                <td><input type="number" name="amarillasLocalJugadores" min="0"></td>
+                <td><input type="number" name="rojasLocalJugadores" min="0"></td>
+
+                <input type="hidden" name="idLocalJugadores" th:value="${j.nombre}">
+            </tr>
+
+        </table>
+
+        <br>
+
+        <h3 th:text="${partido.visitante.nombre}">Visitante</h3>
+
+        <table border="1">
+            <tr>
+                <th>Jugador</th>
+                <th>Goles</th>
+                <th>Asistencias</th>
+                <th>Amarillas</th>
+                <th>Rojas</th>
+            </tr>
+
+            <tr th:each="j, i : ${jugadoresVisitante}">
+                <td th:text="${j.nombre}"></td>
+
+                <td><input type="number" name="golesVisitanteJugadores" min="0"></td>
+                <td><input type="number" name="asistenciasVisitanteJugadores" min="0"></td>
+                <td><input type="number" name="amarillasVisitanteJugadores" min="0"></td>
+                <td><input type="number" name="rojasVisitanteJugadores" min="0"></td>
+
+                <input type="hidden" name="idVisitanteJugadores" th:value="${j.nombre}">
+            </tr>
+
+        </table>
+
+    </div>
+
+    <br>
+
+    <button type="submit">Registrar</button>
+    <a th:href="@{/partidos}">Cancelar</a>
+
 </form>
-
-<br><a th:href="@{/partidos}">Volver</a>
 
 </body>
 </html>

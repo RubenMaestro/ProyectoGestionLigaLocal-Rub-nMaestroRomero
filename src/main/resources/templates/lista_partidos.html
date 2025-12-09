@@ -6,6 +6,14 @@
 </head>
 <body>
 
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Partidos</title>
+</head>
+<body>
+
 <h1>Partidos</h1>
 
 <a th:href="@{/partidos/nuevo}">Programar partido</a>
@@ -24,22 +32,26 @@
     </thead>
     <tbody>
     <tr th:each="p, i : ${partidos}">
-        <td th:text="${p.fecha}"></td>
-        <td th:text="${p.lugar}"></td>
-        <td th:text="${p.local.nombre}"></td>
-        <td th:text="${p.visitante.nombre}"></td>
-        <td th:text="${p.jugado}"></td>
+        <td th:text="${p.fecha}">fecha</td>
+        <td th:text="${p.lugar}">lugar</td>
+        <td th:text="${p.local != null ? p.local.nombre : '—'}">local</td>
+        <td th:text="${p.visitante != null ? p.visitante.nombre : '—'}">visitante</td>
+        <td th:text="${p.jugado}">jugado</td>
         <td>
-            <a th:href="@{'/partidos/' + ${i.index} + '/jugar'}">Jugar</a>
-            |
-            <a th:href="@{'/partidos/' + ${i.index} + '/borrar'}">Eliminar</a>
+            <a th:href="@{/partidos/{idx}/jugar(idx=${i.index})}">Jugar</a>
+            &nbsp;|&nbsp;
+            <a th:href="@{/partidos/{idx}/borrar(idx=${i.index})}">Eliminar</a>
         </td>
     </tr>
     </tbody>
 </table>
 
 <br>
-<a href="/">Volver</a>
+<a th:href="@{/}">Volver</a>
+
+</body>
+</html>
+
 
 </body>
 </html>

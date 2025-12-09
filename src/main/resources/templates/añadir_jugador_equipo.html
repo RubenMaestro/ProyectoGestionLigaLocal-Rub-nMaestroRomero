@@ -2,33 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Añadir jugador al equipo</title>
+    <title>Añadir jugador</title>
 </head>
 <body>
 
-<h1>Añadir jugador al equipo</h1>
+<h1>Añadir jugador al equipo: <span th:text="${nombreEquipo}"></span></h1>
 
-<form th:action="@{'/equipos/' + ${equipo.nombre} + '/jugadores/agregar'}"
-      th:object="${jugador}" method="post">
+<form th:action="@{'/equipos/' + ${nombreEquipo} + '/anadir'}" method="post">
 
-    <label>Nombre del jugador:</label>
-    <input type="text" th:field="*{nombre}" required>
+    <label>Selecciona un jugador libre:</label>
+    <select name="dniJugador" required>
+        <option value="" disabled selected>Selecciona un jugador</option>
+
+        <option th:each="j : ${jugadoresLibres}"
+                th:value="${j.dni}"
+                th:text="${j.nombre + ' (' + j.posicion + ')'}">Jugador
+        </option>
+    </select>
+
     <br><br>
-
-    <label>Posición:</label>
-    <input type="text" th:field="*{posicion}">
-    <br><br>
-
-    <label>Edad:</label>
-    <input type="number" th:field="*{edad}">
-    <br><br>
-
     <button type="submit">Añadir jugador</button>
-
 </form>
 
 <br>
-<a th:href="@{'/equipos/' + ${equipo.nombre}}">Volver al equipo</a>
+<a th:href="@{'/equipos/' + ${nombreEquipo}}">Volver al equipo</a>
 
 </body>
 </html>

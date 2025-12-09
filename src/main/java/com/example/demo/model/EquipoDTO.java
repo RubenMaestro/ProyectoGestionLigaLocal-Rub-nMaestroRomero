@@ -6,28 +6,43 @@ import java.util.List;
 public class EquipoDTO {
 
     private String nombre;
-
+    private String entrenador;
     private List<JugadorDTO> jugadores = new ArrayList<>();
 
+    // Estadísticas del equipo
     private int puntos;
     private int golesFavor;
     private int golesContra;
+
+    // 👇 AÑADIDOS (necesarios para clasificacion.html)
     private int victorias;
-    private int empates;
     private int derrotas;
+    private int empates;
 
     public EquipoDTO() {}
+
+    // ----- GETTERS & SETTERS -----
 
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getEntrenador() {
+        return entrenador;
+    }
+
+    public void setEntrenador(String entrenador) {
+        this.entrenador = entrenador;
     }
 
     public List<JugadorDTO> getJugadores() {
         return jugadores;
     }
+
     public void setJugadores(List<JugadorDTO> jugadores) {
         this.jugadores = jugadores;
     }
@@ -35,6 +50,7 @@ public class EquipoDTO {
     public int getPuntos() {
         return puntos;
     }
+
     public void setPuntos(int puntos) {
         this.puntos = puntos;
     }
@@ -42,6 +58,7 @@ public class EquipoDTO {
     public int getGolesFavor() {
         return golesFavor;
     }
+
     public void setGolesFavor(int golesFavor) {
         this.golesFavor = golesFavor;
     }
@@ -49,35 +66,41 @@ public class EquipoDTO {
     public int getGolesContra() {
         return golesContra;
     }
+
     public void setGolesContra(int golesContra) {
         this.golesContra = golesContra;
     }
 
+    // ----- CAMPOS AÑADIDOS PARA LA CLASIFICACIÓN -----
+
     public int getVictorias() {
         return victorias;
     }
+
     public void setVictorias(int victorias) {
         this.victorias = victorias;
-    }
-
-    public int getEmpates() {
-        return empates;
-    }
-    public void setEmpates(int empates) {
-        this.empates = empates;
     }
 
     public int getDerrotas() {
         return derrotas;
     }
+
     public void setDerrotas(int derrotas) {
         this.derrotas = derrotas;
     }
 
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+
+
     public void agregarJugador(JugadorDTO jugador) {
-        if (jugadores == null) {
-            jugadores = new ArrayList<>();
+        if (jugador != null) {
+            this.jugadores.add(jugador);
         }
-        jugadores.add(jugador);
     }
 }
