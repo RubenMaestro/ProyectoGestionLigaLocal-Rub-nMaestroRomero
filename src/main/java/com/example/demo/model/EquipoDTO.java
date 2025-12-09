@@ -9,19 +9,15 @@ public class EquipoDTO {
     private String entrenador;
     private List<JugadorDTO> jugadores = new ArrayList<>();
 
-    // Estadísticas del equipo
     private int puntos;
     private int golesFavor;
     private int golesContra;
 
-    // 👇 AÑADIDOS (necesarios para clasificacion.html)
     private int victorias;
     private int derrotas;
     private int empates;
 
     public EquipoDTO() {}
-
-    // ----- GETTERS & SETTERS -----
 
     public String getNombre() {
         return nombre;
@@ -70,8 +66,6 @@ public class EquipoDTO {
     public void setGolesContra(int golesContra) {
         this.golesContra = golesContra;
     }
-
-    // ----- CAMPOS AÑADIDOS PARA LA CLASIFICACIÓN -----
 
     public int getVictorias() {
         return victorias;

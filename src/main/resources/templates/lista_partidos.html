@@ -6,14 +6,6 @@
 </head>
 <body>
 
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Partidos</title>
-</head>
-<body>
-
 <h1>Partidos</h1>
 
 <a th:href="@{/partidos/nuevo}">Programar partido</a>
@@ -39,8 +31,6 @@
         <td th:text="${p.jugado}">jugado</td>
         <td>
             <a th:href="@{/partidos/{idx}/jugar(idx=${i.index})}">Jugar</a>
-            &nbsp;|&nbsp;
-            <a th:href="@{/partidos/{idx}/borrar(idx=${i.index})}">Eliminar</a>
         </td>
     </tr>
     </tbody>
@@ -48,10 +38,6 @@
 
 <br>
 <a th:href="@{/}">Volver</a>
-
-</body>
-</html>
-
 
 </body>
 </html>

@@ -25,7 +25,6 @@
 
 <form th:action="@{/partidos/{idx}/registrar(idx=${index})}" method="post">
 
-    <!-- MODO DE REGISTRO -->
     <h3>Tipo de estadística</h3>
 
     <label>
@@ -40,7 +39,6 @@
 
     <br><br>
 
-    <!-- GOLES GENERALES -->
     <label>Goles Local:</label>
     <input type="number" name="golesLocal" min="0" th:value="${partido.golesLocal}" required>
 
@@ -50,10 +48,6 @@
     <input type="number" name="golesVisitante" min="0" th:value="${partido.golesVisitante}" required>
 
     <br><br>
-
-    <!-- ======================== -->
-    <!--      ESTADISTICAS AVANZADAS -->
-    <!-- ======================== -->
 
     <div id="avanzadas" style="display:none;">
 

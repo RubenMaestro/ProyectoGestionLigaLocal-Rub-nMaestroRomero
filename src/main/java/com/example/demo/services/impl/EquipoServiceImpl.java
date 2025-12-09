@@ -32,7 +32,7 @@ public class EquipoServiceImpl implements EquipoService {
             equipo.setJugadores(new ArrayList<>());
         }
 
-        // Inicializar estadísticas a 0 (son int, no aceptan null)
+        // Inicializar estadísticas a 0 
         equipo.setPuntos(0);
         equipo.setVictorias(0);
         equipo.setEmpates(0);

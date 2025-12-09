@@ -5,7 +5,6 @@ import com.example.demo.model.EquipoDTO;
 import com.example.demo.model.JugadorDTO;
 
 public interface EquipoService {
-
     List<EquipoDTO> getEquipos();
     void crearEquipo(EquipoDTO equipo);
     EquipoDTO getEquipo(String nombre);

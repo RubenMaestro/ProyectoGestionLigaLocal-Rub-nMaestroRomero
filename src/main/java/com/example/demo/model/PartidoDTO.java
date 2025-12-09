@@ -5,7 +5,6 @@ public class PartidoDTO {
     private String fecha;
     private String lugar;
 
-    // EquipoDTO no se define aquí, se asume que existe en tu paquete model.
     private EquipoDTO local;
     private EquipoDTO visitante;
 
@@ -20,7 +19,6 @@ public class PartidoDTO {
         this.jugado = false;
     }
 
-    // Fecha / Lugar
     public String getFecha() {
         return fecha;
     }
@@ -34,7 +32,6 @@ public class PartidoDTO {
         this.lugar = lugar;
     }
 
-    // Equipos
     public EquipoDTO getLocal() {
         return local;
     }
@@ -48,7 +45,6 @@ public class PartidoDTO {
         this.visitante = visitante;
     }
 
-    // Goles
     public Integer getGolesLocal() {
         return golesLocal;
     }
@@ -62,7 +58,6 @@ public class PartidoDTO {
         this.golesVisitante = golesVisitante;
     }
 
-    // Jugado
     public boolean isJugado() {
         return jugado;
     }

@@ -26,12 +26,10 @@
         <td th:text="${#lists.size(e.jugadores)}"></td>
 
         <td>
-            <!-- ENLACE VER, AHORA FUNCIONA CON ESPACIOS -->
             <a th:href="@{/equipos/__${e.nombre}__}">Ver</a>
 
             &nbsp;|&nbsp;
 
-            <!-- ENLACE BORRAR -->
             <a th:href="@{/equipos/__${e.nombre}__/borrar}">Eliminar</a>
         </td>
     </tr>

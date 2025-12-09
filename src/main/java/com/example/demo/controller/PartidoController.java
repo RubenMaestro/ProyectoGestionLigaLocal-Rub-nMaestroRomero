@@ -32,14 +32,12 @@ public class PartidoController {
         this.resultadosAvanzadosService = resultadosAvanzadosService;
     }
 
-    // LISTAR PARTIDOS
     @GetMapping
     public String listarPartidos(Model model) {
         model.addAttribute("partidos", partidoService.getPartidos());
         return "lista_partidos";
     }
 
-    // FORMULARIO NUEVO PARTIDO
     @GetMapping("/nuevo")
     public String mostrarFormularioNuevoPartido(Model model) {
         model.addAttribute("partido", new PartidoDTO());
@@ -62,7 +60,6 @@ public class PartidoController {
         return "redirect:/partidos";
     }
 
-    // GET para abrir pantalla de jugar
     @GetMapping("/{idx}/jugar")
     public String jugarPartido(@PathVariable int idx, Model model) {
 
@@ -87,9 +84,6 @@ public class PartidoController {
         return "partidos_jugar";
     }
 
-    // =============================
-    //        REGISTRAR RESULTADO
-    // =============================
     @PostMapping("/{idx}/registrar")
     public String registrarResultado(
             @PathVariable int idx,
@@ -113,22 +107,15 @@ public class PartidoController {
         PartidoDTO partido = partidoService.obtenerPartido(idx);
         if (partido == null) return "redirect:/partidos";
 
-        // Actualizar marcador
         partido.setGolesLocal(golesLocal);
         partido.setGolesVisitante(golesVisitante);
         partido.setJugado(true);
 
-        // ======================
-        //     MODO NORMAL
-        // ======================
         if ("normal".equalsIgnoreCase(modo)) {
             resultadosNormalesService.calcular(partido);
             return "redirect:/partidos";
         }
 
-        // ======================
-        //     MODO AVANZADAS
-        // ======================
         if ("avanzadas".equalsIgnoreCase(modo)) {
 
             // ----------- JUGADORES LOCAL ------------
@@ -151,7 +138,6 @@ public class PartidoController {
                 }
             }
 
-            // ----------- JUGADORES VISITANTE ------------
             if (idVisitanteJugadores != null) {
                 EquipoDTO equipoVisit = partido.getVisitante();
                 for (int i = 0; i < idVisitanteJugadores.size(); i++) {
@@ -171,24 +157,13 @@ public class PartidoController {
                 }
             }
 
-            // cálculos especiales
             resultadosAvanzadosService.calcular(partido);
-
-            // 🔥🔥🔥 MUY IMPORTANTE:
-            // ACTUALIZAR TAMBIÉN LA CLASIFICACIÓN
             resultadosNormalesService.calcular(partido);
         }
 
         return "redirect:/partidos";
     }
 
-    @GetMapping("/{idx}/eliminar")
-    public String eliminar(@PathVariable int idx) {
-        partidoService.eliminarPartido(idx);
-        return "redirect:/partidos";
-    }
-
-    // Evitar null al sumar estadísticas
     private int safeInt(List<Integer> lista, int index) {
         if (lista == null || index >= lista.size() || lista.get(index) == null)
             return 0;

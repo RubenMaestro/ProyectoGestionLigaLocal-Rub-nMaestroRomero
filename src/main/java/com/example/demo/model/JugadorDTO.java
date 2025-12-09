@@ -12,7 +12,6 @@ public class JugadorDTO {
     private int amarillas;
     private int rojas;
 
-    private double valorMercado;
     private String equipo;
 
     public JugadorDTO() {}
@@ -27,7 +26,6 @@ public class JugadorDTO {
         this.asistencias = 0;
         this.amarillas = 0;
         this.rojas = 0;
-        this.valorMercado = 0.0;
     }
 
     public String getNombre() {
@@ -85,14 +83,7 @@ public class JugadorDTO {
     public void setRojas(int rojas) {
         this.rojas = rojas;
     }
-
-    public double getValorMercado() {
-        return valorMercado;
-    }
-    public void setValorMercado(double valorMercado) {
-        this.valorMercado = valorMercado;
-    }
-
+    
     public String getEquipo() {
         return equipo;
     }

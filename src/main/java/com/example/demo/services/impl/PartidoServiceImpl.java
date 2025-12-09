@@ -42,14 +42,13 @@ public class PartidoServiceImpl implements PartidoService {
         return partidos.get(index);
     }
 
-    // Crear partido — se aceptan nombres de equipos para buscar objetos EquipoDTO
+    // Crear partido
     @Override
     public void crearPartido(PartidoDTO partido, String localNombre, String visitanteNombre) {
         EquipoDTO local = equipoService.getEquipo(localNombre);
         EquipoDTO visitante = equipoService.getEquipo(visitanteNombre);
 
         if (local == null || visitante == null) {
-            // no crear si alguno falta
             return;
         }
 
@@ -72,15 +71,7 @@ public class PartidoServiceImpl implements PartidoService {
         partido.setGolesVisitante(golesVisitante);
         partido.setJugado(true);
 
-        // llamar al comportamiento definido por las implementaciones de ResultadosService
         resultadosNormalesService.calcular(partido);
         resultadosAvanzadosService.calcular(partido);
-    }
-
-    // eliminar partido por índice
-    @Override
-    public void eliminarPartido(int index) {
-        if (index < 0 || index >= partidos.size()) return;
-        partidos.remove(index);
     }
 }

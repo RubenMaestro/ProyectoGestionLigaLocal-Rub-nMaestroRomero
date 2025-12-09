@@ -8,7 +8,5 @@ public interface JugadorService {
     void crearJugador(JugadorDTO jugador) throws Exception;
     JugadorDTO getJugadorPorDni(String dni);
     void eliminarJugador(String dni);
-
-    // Nuevo: devuelve jugadores que no tienen equipo asignado
     List<JugadorDTO> getJugadoresSinEquipo();
 }
