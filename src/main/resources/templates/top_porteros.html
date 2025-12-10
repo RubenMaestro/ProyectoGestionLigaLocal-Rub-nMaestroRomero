@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Porteros menos goleados</title>
+</head>
+<body>
+
+<h1>Porteros menos goleados</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Equipo</th>
+        <th>Goles encajados</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="p : ${porteros}">
+        <td th:text="${p.jugador.nombre}"></td>
+        <td th:text="${p.jugador.equipo}"></td>
+        <td th:text="${p.golesContra}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<a href="/jugadores">Volver</a>
+
+</body>
+</html>

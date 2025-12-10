@@ -8,4 +8,5 @@ public interface JugadorService {
     void crearJugador(JugadorDTO jugador) throws Exception;
     JugadorDTO getJugadorPorDni(String dni);
     List<JugadorDTO> getJugadoresSinEquipo();
+    List<JugadorDTO> getMaximoGoleadores();
 }

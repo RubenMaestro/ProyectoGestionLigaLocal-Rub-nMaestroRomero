@@ -1,6 +1,7 @@
 package com.example.demo.services.impl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.example.demo.model.JugadorDTO;
@@ -46,4 +47,12 @@ public class JugadorServiceImpl implements JugadorService {
         }
         return libres;
     }
+    
+    @Override
+    public List<JugadorDTO> getMaximoGoleadores() {
+        List<JugadorDTO> jugadores = getJugadores();
+        jugadores.sort(Comparator.comparingInt(JugadorDTO::getGoles).reversed());
+        return jugadores;
+    }
+
 }
