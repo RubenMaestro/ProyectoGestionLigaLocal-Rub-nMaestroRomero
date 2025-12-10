@@ -21,13 +21,16 @@ public class PartidoServiceImpl implements PartidoService {
     private List<PartidoDTO> partidos = new ArrayList<>();
 
     @Autowired
-    public PartidoServiceImpl(EquipoService equipoService,
-                              com.example.demo.services.impl.ResultadosNormalesService resultadosNormalesService,
-                              com.example.demo.services.impl.ResultadosAvanzadosService resultadosAvanzadosService) {
+    public PartidoServiceImpl(
+            EquipoService equipoService,
+            ResultadosNormalesService normalesSrv,
+            ResultadosAvanzadosService avanzadosSrv) {
+
         this.equipoService = equipoService;
-        this.resultadosNormalesService = resultadosNormalesService;
-        this.resultadosAvanzadosService = resultadosAvanzadosService;
+        this.resultadosNormalesService = normalesSrv;
+        this.resultadosAvanzadosService = avanzadosSrv;
     }
+
 
     // Devuelve la lista actual de partidos
     @Override

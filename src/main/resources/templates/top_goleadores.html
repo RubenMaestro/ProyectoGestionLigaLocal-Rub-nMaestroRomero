@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Top goleadores</title>
+</head>
+<body>
+
+<h1>Top goleadores</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Goles</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="j : ${jugadores}">
+        <td th:text="${j.nombre}"></td>
+        <td th:text="${j.goles}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<a href="/jugadores">Volver</a>
+
+</body>
+</html>

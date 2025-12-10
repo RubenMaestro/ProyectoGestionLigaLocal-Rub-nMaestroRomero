@@ -5,10 +5,12 @@
     <title>Registrar Resultado</title>
 
     <script>
+ 		// Muestra u oculta la parte avanzada según el modo elegido
         function toggleAvanzadas() {
             const avanzadas = document.getElementById("avanzadas");
             const modo = document.querySelector('input[name="modo"]:checked').value;
-
+	
+            // Si el usuario elige "avanzadas", mostramos la tabla
             avanzadas.style.display = (modo === "avanzadas") ? "block" : "none";
         }
     </script>

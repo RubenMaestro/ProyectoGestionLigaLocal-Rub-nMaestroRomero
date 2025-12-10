@@ -37,12 +37,6 @@ public class JugadorServiceImpl implements JugadorService {
     }
 
     @Override
-    public void eliminarJugador(String dni) {
-        if (dni == null) return;
-        jugadores.removeIf(j -> j.getDni() != null && j.getDni().equalsIgnoreCase(dni));
-    }
-
-    @Override
     public List<JugadorDTO> getJugadoresSinEquipo() {
         List<JugadorDTO> libres = new ArrayList<>();
         for (JugadorDTO j : jugadores) {
